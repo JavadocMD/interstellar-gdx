@@ -16,6 +16,7 @@ import com.javadocmd.interstellar.model.Connection;
 import com.javadocmd.interstellar.model.GameController;
 import com.javadocmd.interstellar.model.Map;
 import com.javadocmd.interstellar.model.MapBuilder;
+import com.javadocmd.interstellar.model.Maps;
 import com.javadocmd.interstellar.model.Planet;
 import com.javadocmd.interstellar.model.Player;
 import com.javadocmd.interstellar.model.work.WorkQueue;
@@ -49,7 +50,8 @@ public class InterstellarGame extends ApplicationAdapter {
 		players.add(new Player("AI", false));
 
 		MapBuilder mb = new MapBuilder(players);
-		mb.readFile(Gdx.files.internal("map.txt"));
+		// mb.readFile(Gdx.files.internal("map.txt"));
+		mb.readStringArray(Maps.basic);
 		Map map = mb.build();
 
 		GameController game = new GameController(players, map);

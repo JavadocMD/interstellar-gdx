@@ -3,7 +3,8 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.ashley_gwt' />
-
+	<inherits name="com.google.common.collect.Collect"/>
+	
     <inherits name='InterstellarGame' />
 	<entry-point class='com.javadocmd.interstellar.client.HtmlLauncher' />
 	
@@ -12,4 +13,9 @@
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
 	
 	<set-configuration-property name="gdx.assetpath" value="../core/assets" />
+	
+	<extend-configuration-property name="gdx.reflect.include" value="com.javadocmd.interstellar.model.Connection" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.javadocmd.interstellar.model.Planet" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.javadocmd.interstellar.model.work.WorkQueue" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.javadocmd.interstellar.model.Player" />
 </module>

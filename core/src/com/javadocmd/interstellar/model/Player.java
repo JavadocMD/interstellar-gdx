@@ -10,6 +10,7 @@ import com.javadocmd.interstellar.model.ai.BasicAiProgram;
 import com.javadocmd.interstellar.model.component.Ai;
 import com.javadocmd.interstellar.model.component.Components;
 import com.javadocmd.interstellar.model.component.HudEnabled;
+import com.javadocmd.interstellar.model.component.PlayerComponent;
 import com.javadocmd.interstellar.model.component.Worker;
 import com.javadocmd.interstellar.model.handle.ResourcesHandle;
 import com.javadocmd.interstellar.model.work.Job;
@@ -27,6 +28,8 @@ public class Player extends Entity implements ResourcesHandle {
 	public Player(String name, boolean isUser) {
 		this.name = name;
 		this.isUser = isUser;
+		
+		this.add(new PlayerComponent(this));
 		if (isUser)
 			this.add(new HudEnabled());
 		else

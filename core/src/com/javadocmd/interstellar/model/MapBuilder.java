@@ -3,8 +3,8 @@ package com.javadocmd.interstellar.model;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +16,7 @@ public class MapBuilder {
 
 	private List<Player> players;
 	private Player user;
-	
+
 	private java.util.Map<String, Planet> planets;
 	private List<Connection> connections;
 
@@ -25,8 +25,8 @@ public class MapBuilder {
 	public MapBuilder(List<Player> players) {
 		this.players = players;
 		this.user = players.get(0);
-		
-		planets = new LinkedHashMap<String, Planet>();
+
+		planets = new HashMap<String, Planet>();
 		connections = new ArrayList<Connection>();
 
 		connected = new HashSet<String>();
@@ -37,30 +37,39 @@ public class MapBuilder {
 		try {
 			while (reader.ready()) {
 				String line = reader.readLine();
-				if (line.isEmpty())
-					continue;
-
-				String[] parts = line.split("\\s");
-				if (parts[0].equals("p")) {
-					// Planet
-					Integer ownerIndex = (parts.length == 6) ? Integer.parseInt(parts[5]) : null;
-					Player owner = null;
-					if (ownerIndex != null) {
-						owner = players.get(ownerIndex);
-					}
-					
-					addPlanet(parts[1], Float.parseFloat(parts[2]),
-							Float.parseFloat(parts[3]),
-							Planet.Type.valueOf(parts[4]), owner);
-
-				} else if (parts[0].equals("c")) {
-					// Connection
-					addConnection(parts[1], parts[2]);
-
-				}
+				readLine(line);
 			}
 		} catch (IOException e) {
 			Gdx.app.log("MapBuilder", "Could not load map file.", e);
+		}
+	}
+
+	public void readStringArray(String[] lines) {
+		for (String s : lines)
+			readLine(s);
+	}
+
+	public void readLine(String line) {
+		if (line.isEmpty())
+			return;
+
+		String[] parts = line.split("\\s");
+		if (parts[0].equals("p")) {
+			// Planet
+			Integer ownerIndex = (parts.length == 6) ? Integer
+					.parseInt(parts[5]) : null;
+			Player owner = null;
+			if (ownerIndex != null) {
+				owner = players.get(ownerIndex);
+			}
+
+			addPlanet(parts[1], Float.parseFloat(parts[2]),
+					Float.parseFloat(parts[3]), Planet.Type.valueOf(parts[4]),
+					owner);
+
+		} else if (parts[0].equals("c")) {
+			// Connection
+			addConnection(parts[1], parts[2]);
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.javadocmd.interstellar.model;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.javadocmd.interstellar.model.component.Components;
+import com.javadocmd.interstellar.model.component.ConnectionComponent;
 import com.javadocmd.interstellar.model.component.Owner;
 import com.javadocmd.interstellar.model.component.Revenue;
 import com.javadocmd.interstellar.model.handle.OwnerHandle;
@@ -22,6 +23,7 @@ public class Connection extends Entity implements OwnerHandle {
 		this.b = b;
 		this.status = Status.UNAVAILABLE;
 
+		this.add(new ConnectionComponent(this));
 		this.add(new Revenue(value));
 		this.add(new Owner(null));
 	}
@@ -58,6 +60,6 @@ public class Connection extends Entity implements OwnerHandle {
 
 	@Override
 	public String toString() {
-		return String.format("Connection(%s,%s)", a, b);
+		return "Connection(" + a + "," + b + ")";
 	}
 }

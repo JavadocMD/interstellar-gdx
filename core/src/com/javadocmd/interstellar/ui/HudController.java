@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.javadocmd.interstellar.model.Player;
 import com.javadocmd.interstellar.model.component.Components;
+import com.javadocmd.interstellar.model.component.PlayerComponent;
+import com.javadocmd.interstellar.model.component.WorkQueueComponent;
 import com.javadocmd.interstellar.model.work.WorkQueue;
 
 public class HudController implements EntityListener {
@@ -72,13 +74,14 @@ public class HudController implements EntityListener {
 		if (!Components.isHudEnabled(entity))
 			return;
 
-		if (entity instanceof WorkQueue) {
-			WorkQueue workQueue = (WorkQueue) entity;
-			add(workQueue);
+		PlayerComponent playerComp = Components.PLAYER.get(entity);
+		WorkQueueComponent workQueueComp = Components.WORK_QUEUE.get(entity);
 
-		} else if (entity instanceof Player) {
-			Player player = (Player) entity;
-			add(player);
+		if (workQueueComp != null) {
+			add(workQueueComp.workQueue);
+
+		} else if (playerComp != null) {
+			add(playerComp.player);
 		}
 	}
 

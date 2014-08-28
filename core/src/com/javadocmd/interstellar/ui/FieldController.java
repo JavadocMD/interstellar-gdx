@@ -3,8 +3,9 @@ package com.javadocmd.interstellar.ui;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.javadocmd.interstellar.model.Connection;
-import com.javadocmd.interstellar.model.Planet;
+import com.javadocmd.interstellar.model.component.Components;
+import com.javadocmd.interstellar.model.component.ConnectionComponent;
+import com.javadocmd.interstellar.model.component.PlanetComponent;
 
 public class FieldController implements EntityListener {
 
@@ -16,20 +17,22 @@ public class FieldController implements EntityListener {
 
 	@Override
 	public void entityAdded(Entity entity) {
-		if (entity instanceof Connection) {
-			Connection c = (Connection) entity;
-			ConnectionActor a = new ConnectionActor(c);
+
+		PlanetComponent planetComp = Components.PLANET.get(entity);
+		ConnectionComponent connectionComp = Components.CONNECTION.get(entity);
+
+		if (connectionComp != null) {
+			ConnectionActor a = new ConnectionActor(connectionComp.connection);
 			stage.addActor(a);
 
-		} else if (entity instanceof Planet) {
-			Planet p = (Planet) entity;
-			PlanetActor a = new PlanetActor(p);
+		} else if (planetComp != null) {
+			PlanetActor a = new PlanetActor(planetComp.planet);
 			stage.addActor(a);
 		}
 	}
 
 	@Override
 	public void entityRemoved(Entity entity) {
-		
+
 	}
 }

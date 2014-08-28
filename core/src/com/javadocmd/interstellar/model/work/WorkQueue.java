@@ -1,6 +1,7 @@
 package com.javadocmd.interstellar.model.work;
 
 import com.badlogic.ashley.core.Entity;
+import com.javadocmd.interstellar.model.component.WorkQueueComponent;
 import com.javadocmd.interstellar.model.component.Worker;
 
 public class WorkQueue extends Entity {
@@ -12,6 +13,7 @@ public class WorkQueue extends Entity {
 		this.workQueueIndex = workQueueIndex;
 		this.worker = new Worker(type);
 		this.add(worker);
+		this.add(new WorkQueueComponent(this));
 	}
 
 	public int getWorkQueueIndex() {

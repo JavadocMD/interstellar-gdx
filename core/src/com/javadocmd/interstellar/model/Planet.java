@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.javadocmd.interstellar.model.component.Components;
 import com.javadocmd.interstellar.model.component.Owner;
+import com.javadocmd.interstellar.model.component.PlanetComponent;
 import com.javadocmd.interstellar.model.component.Revenue;
 import com.javadocmd.interstellar.model.handle.OwnerHandle;
 import com.javadocmd.interstellar.ui.Art;
@@ -61,6 +62,7 @@ public class Planet extends Entity implements OwnerHandle {
 		this.type = type;
 		this.connections = new HashSet<Connection>();
 		add(new Owner(null));
+		add(new PlanetComponent(this));
 		if (type == Type.CITY)
 			add(new Revenue(1, 0, 0));
 	}
@@ -110,6 +112,6 @@ public class Planet extends Entity implements OwnerHandle {
 
 	@Override
 	public String toString() {
-		return String.format("Planet(%s)", name);
+		return "Planet(" + name + ")";
 	}
 }
