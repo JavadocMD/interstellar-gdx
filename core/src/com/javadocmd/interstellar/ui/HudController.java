@@ -3,12 +3,12 @@ package com.javadocmd.interstellar.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.javadocmd.interstellar.InterstellarGame;
 import com.javadocmd.interstellar.model.Player;
 import com.javadocmd.interstellar.model.component.Components;
 import com.javadocmd.interstellar.model.component.PlayerComponent;
@@ -19,8 +19,8 @@ public class HudController implements EntityListener {
 
 	private static HudController INSTANCE = null;
 
-	public static HudController init(Engine engine, Stage stage) {
-		HudController hudCont = new HudController(engine, stage);
+	public static HudController init(InterstellarGame game, Stage stage) {
+		HudController hudCont = new HudController(game, stage);
 		INSTANCE = hudCont;
 		return hudCont;
 	}
@@ -29,18 +29,19 @@ public class HudController implements EntityListener {
 		return INSTANCE;
 	}
 
-	private Engine engine;
+	private InterstellarGame game;
 	private Stage stage;
 	private Map<Entity, Actor> entityActors;
 
 	private ToolTip toolTip;
 
 	private float viewportWidth;
+	private boolean frozen = false;
 
 	// private float viewportHeight;
 
-	private HudController(Engine engine, Stage stage) {
-		this.engine = engine;
+	private HudController(InterstellarGame game, Stage stage) {
+		this.game = game;
 		this.stage = stage;
 		this.entityActors = new HashMap<Entity, Actor>();
 		this.viewportWidth = stage.getViewport().getScreenWidth();
@@ -61,12 +62,11 @@ public class HudController implements EntityListener {
 		ResourcesBar resBar = new ResourcesBar(player, viewportWidth / 2, 10);
 		entityActors.put(player, resBar);
 		stage.addActor(resBar);
-
-		player.setEngine(engine);
 	}
 
 	public void setToolTip(String text) {
-		toolTip.setText(text);
+		if (!frozen)
+			toolTip.setText(text);
 	}
 
 	@Override
@@ -92,7 +92,10 @@ public class HudController implements EntityListener {
 		// a.remove();
 	}
 
-	public void freezeGame() {
+	public void freezeGame(String message) {
+		frozen = true;
+		toolTip.setText(message);
 		Gdx.input.setInputProcessor(null);
+		game.logicFreeze();
 	}
 }

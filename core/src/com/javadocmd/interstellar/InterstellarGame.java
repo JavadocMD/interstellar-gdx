@@ -35,6 +35,8 @@ public class InterstellarGame extends ApplicationAdapter {
 	private MapScroll mapScroll;
 
 	private Engine engine;
+	
+	private boolean logicRun = true; 
 
 	@Override
 	public void create() {
@@ -60,7 +62,7 @@ public class InterstellarGame extends ApplicationAdapter {
 		engine.addSystem(new WorkSystem());
 		engine.addSystem(new AiSystem());
 		// engine.addSystem(new RevenueSystem());
-		engine.addEntityListener(HudController.init(engine, hudStage));
+		engine.addEntityListener(HudController.init(this, hudStage));
 		engine.addEntityListener(new FieldController(fieldStage));
 
 		for (Connection c : map.getConnections())
@@ -68,6 +70,7 @@ public class InterstellarGame extends ApplicationAdapter {
 		for (Planet p : map.getPlanets())
 			engine.addEntity(p);
 		for (Player p : players) {
+			p.setEngine(engine);
 			engine.addEntity(p);
 			for (WorkQueue q : p.getWorkQueues())
 				engine.addEntity(q);
@@ -92,8 +95,9 @@ public class InterstellarGame extends ApplicationAdapter {
 
 		float delta = Gdx.graphics.getDeltaTime();
 		mapScroll.update(delta);
-
-		engine.update(delta);
+		
+		if (logicRun)
+			engine.update(delta);
 
 		fieldStage.act();
 		fieldStage.draw();
@@ -106,5 +110,9 @@ public class InterstellarGame extends ApplicationAdapter {
 	public void dispose() {
 		fieldStage.dispose();
 		Art.dispose();
+	}
+	
+	public void logicFreeze() {
+		logicRun = false;
 	}
 }

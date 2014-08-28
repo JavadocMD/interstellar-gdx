@@ -46,11 +46,13 @@ public class GameController {
 
 	public void win(Player player) {
 		//Gdx.app.log("GameController", player.toString() + " won");
+		
+		final String message;
 		if (player.isUser()) {
-			HudController.get().setToolTip("Player won! (Restart to play again.)");
+			message = "Player won! (Restart to play again.)";
 		} else {
-			HudController.get().setToolTip("Player lost. :( (Restart to play again.)");
+			message = "Player lost. :( (Restart to play again.)";
 		}
-		HudController.get().freezeGame();
+		HudController.get().freezeGame(message);
 	}
 }
